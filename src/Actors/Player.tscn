@@ -335,6 +335,7 @@ collision_mask = 2
 collision/safe_margin = 0.008
 script = ExtResource( 2 )
 __meta__ = {
+"_edit_horizontal_guides_": [ 1.0 ],
 "_edit_vertical_guides_": [ -108.0 ]
 }
 speed = Vector2( 300, 600 )
@@ -349,6 +350,7 @@ run_speedboost = 150
 position = Vector2( 0, -8 )
 texture = ExtResource( 1 )
 hframes = 27
+frame = 4
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

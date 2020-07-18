@@ -21,12 +21,12 @@ _global_script_class_icons={
 [application]
 
 config/name="PlaformerTemplate"
-run/main_scene="res://src/Levels/LevelTemplate.tscn"
+run/main_scene="res://src/Levels/Level01.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-PlayerData="*res://src/Actors/Autoload/PlayerData.tscn"
+PlayerData="*res://src/Autoload/PlayerData.tscn"
 
 [display]
 

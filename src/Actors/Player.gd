@@ -25,16 +25,12 @@ export var allow_backwards_progression = false
 export var can_crawl = false
 
 		
-func _on_Area2D_area_entered(area):
-	print(area.name)	
-	print(area.collision_layer)
+func _on_Area2D_area_entered(area):		
 	if(area.collision_layer == 32):
 		_velocity = calculate_stomp_velocity(_velocity, stomp_impulse)
 
 #player hit event
 func _on_EnemyDetector_body_entered(body):	
-	print(body.name)	
-	print(body.collision_layer)
 	if(body.collision_layer == 4):
 		PlayerData.hp -= 1
 
@@ -74,8 +70,7 @@ func _physics_process(delta: float) -> void:
 		if(!allow_backwards_progression):
 			update_camera_bound()
 		
-		#X animations
-		print(upray.is_colliding())
+		#X animations		
 		if((PlayerData.pu_state == PlayerData.POWERUP_STATE.BASE or !Input.get_action_strength("crouch")) and !(PlayerData.pu_state != PlayerData.POWERUP_STATE.BASE and upray.is_colliding())):
 			if(_velocity.x!=0):
 				if(direction.x >= 0 and _velocity.x >0):
