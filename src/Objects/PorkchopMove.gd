@@ -3,6 +3,7 @@ extends Actor
 onready var visibility_notifier: VisibilityNotifier2D = get_node("VisibilityNotifier2D")
 
 export var enable_physics = false
+export var destroy_on_exit = true
 
 func _ready():	
 	_velocity.x = -speed.x
@@ -20,4 +21,10 @@ func _on_Area2D_body_entered(body):
 		queue_free()
 
 func enable_physics():
-	enable_physics = true
+	if(destroy_on_exit):
+		enable_physics = true
+
+
+func _on_VisibilityNotifier2D_screen_exited():
+	print("Porkchop gone :(")	
+	queue_free()

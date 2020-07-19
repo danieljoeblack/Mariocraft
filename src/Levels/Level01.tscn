@@ -1,13 +1,15 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/images/dirt clone-1.png.png" type="Texture" id=1]
 [ext_resource path="res://src/Actors/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/images/tree clone-1.png.png" type="Texture" id=3]
 [ext_resource path="res://assets/images/dirt clone-1.png (1).png" type="Texture" id=4]
 [ext_resource path="res://src/Actors/Zomba.tscn" type="PackedScene" id=5]
-[ext_resource path="res://assets/images/smworld1a.png" type="Texture" id=6]
+[ext_resource path="res://src/Objects/PorkchopMove.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Objects/Chest.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/Objects/DestructableDirt.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/images/smworld1a.png" type="Texture" id=9]
+[ext_resource path="res://src/Objects/Spike.tscn" type="PackedScene" id=10]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 16, 16, 0, 16, 0.187557, 0.187561, 16, 0.187561 )
@@ -84,7 +86,7 @@ __meta__ = {
 margin_top = -86.6667
 margin_right = 3321.0
 margin_bottom = 143.333
-texture = ExtResource( 6 )
+texture = ExtResource( 9 )
 stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -112,7 +114,7 @@ limit_top = -260
 limit_bottom = 430
 
 [node name="Enemy" parent="." instance=ExtResource( 5 )]
-position = Vector2( 386.667, 106.667 )
+position = Vector2( 370.952, 104.303 )
 
 [node name="Enemy2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 746.667, 106.667 )
@@ -125,10 +127,10 @@ position = Vector2( 930, 103.333 )
 
 [node name="Chest" parent="." instance=ExtResource( 7 )]
 position = Vector2( 272, 56 )
-spawn_object = ExtResource( 5 )
 
 [node name="Chest2" parent="." instance=ExtResource( 7 )]
 position = Vector2( 352, 56 )
+spawn_object = ExtResource( 6 )
 
 [node name="Chest3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 384, 56 )
@@ -138,6 +140,7 @@ position = Vector2( 368, 8 )
 
 [node name="Chest5" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1328, 56 )
+spawn_object = ExtResource( 6 )
 
 [node name="Chest6" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1584, 8 )
@@ -159,6 +162,7 @@ position = Vector2( 1904, 56 )
 
 [node name="Chest12" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1856, 8 )
+spawn_object = ExtResource( 6 )
 
 [node name="Chest13" parent="." instance=ExtResource( 7 )]
 position = Vector2( 2176, 8 )
@@ -171,6 +175,7 @@ position = Vector2( 2576, 56 )
 
 [node name="Chest16" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1110.02, 41 )
+spawn_object = ExtResource( 6 )
 invisible = true
 
 [node name="DestructableDirt" parent="." instance=ExtResource( 8 )]
@@ -256,5 +261,71 @@ position = Vector2( 2568, 56 )
 
 [node name="DestructableDirt28" parent="." instance=ExtResource( 8 )]
 position = Vector2( 2600, 56 )
+
+[node name="Spike" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1184, 184 )
+
+[node name="Spike2" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1200, 184 )
+
+[node name="Spike3" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1472, 184 )
+
+[node name="Spike4" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1456, 184 )
+
+[node name="Spike5" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1488, 184 )
+
+[node name="Spike6" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2880, 136 )
+
+[node name="Spike7" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2896, 136 )
+
+[node name="Spike8" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2912, 136 )
+
+[node name="Spike9" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2928, 136 )
+
+[node name="Spike10" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2944, 136 )
+
+[node name="Spike11" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2960, 136 )
+
+[node name="Spike12" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2976, 136 )
+
+[node name="Spike13" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2992, 136 )
+
+[node name="Spike14" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3008, 136 )
+
+[node name="Spike15" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3024, 136 )
+
+[node name="Spike16" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3040, 136 )
+
+[node name="Spike17" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3056, 136 )
+
+[node name="Spike18" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3072, 136 )
+
+[node name="Spike19" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3104, 136 )
+
+[node name="Spike20" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3088, 136 )
+
+[node name="Spike21" parent="." instance=ExtResource( 10 )]
+position = Vector2( 96, 104 )
+
+[node name="Enemy5" parent="." instance=ExtResource( 5 )]
+position = Vector2( 112, 88 )
 
 [editable path="Player"]

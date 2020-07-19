@@ -2,6 +2,7 @@ extends Actor
 
 export var physics_enabled = false
 export var score: = 100
+export var destroy_on_exit = true
 
 onready var anim_player: AnimationPlayer = get_node("AnimationPlayer")
 onready var stomp_detector: Area2D = get_node("StompDetector")
@@ -11,8 +12,7 @@ func _ready():
 	_velocity.x = -speed.x
 	anim_player.play("Walking")
 	
-func _on_StompDetector_body_entered(body):
-	print("STOMPED")	
+func _on_StompDetector_body_entered(body):	
 	if body.global_position.y > get_node("StompDetector").global_position.y:		
 		get_node("CollisionShape2D").disabled = true
 		die()
@@ -32,11 +32,12 @@ func die()->void:
 
 
 func _on_VisibilityEnabler2D_screen_entered():
-	print("Zomb suprise")
+	pass
 
 
 func _on_VisibilityEnabler2D_screen_exited():
-	print("Zomb gone")
+	if(destroy_on_exit):
+		queue_free()
 
 
 func _on_StompDetector_area_entered(area):		

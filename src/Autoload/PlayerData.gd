@@ -20,7 +20,7 @@ func _physics_process(delta):
 
 var pu_state = POWERUP_STATE.BASE
 
-func porkchop_picked_up():
+func porkchop_picked_up():	
 	emit_signal("player_porkchop")
 
 func set_hp(value:int)->void:

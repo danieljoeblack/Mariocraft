@@ -24,6 +24,8 @@ export var physics_paused = false
 export var allow_backwards_progression = false
 export var can_crawl = false
 
+var has_hp=true
+
 		
 func _on_Area2D_area_entered(area):		
 	if(area.collision_layer == 32):
@@ -39,7 +41,7 @@ func _on_PlayerData_player_died():
 	die()
 
 #Player overlap porkchop powerup
-func _on_PlayerData_player_porkchop():
+func _on_PlayerData_player_porkchop():	
 	#power up if required
 	if(PlayerData.pu_state == PlayerData.POWERUP_STATE.BASE):
 		PlayerData.hp = 2
@@ -138,7 +140,10 @@ func calculate_move_velocity(
 				
 
 	if(!allow_backwards_progression):
-		if	camera.limit_left > (position.x-barrierCollision.shape.get_extents().x)*get_parent().scale.x and _velocity.x < 0:		
+		var bound_passed = camera.limit_left >= (position.x-barrierCollision.shape.get_extents().x)*get_parent().scale.x
+		var moving_left = _velocity.x < 0 or direction.x < 0
+		
+		if	bound_passed and moving_left:		
 			out.x=0
 
 	
@@ -217,6 +222,9 @@ func set_big_physics():
 	bigEnemyDetector.monitorable=true
 	bigEnemyDetector.monitoring=true
 	bigBarrierDetector.disabled = false
+	
+func set_hp(hp_modifier):
+	PlayerData.hp += hp_modifier
 
 
 

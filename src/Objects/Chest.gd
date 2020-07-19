@@ -28,25 +28,23 @@ func _physics_process(delta):
 
 func _on_Area2D_body_entered(body:KinematicBody2D):
 	var actual_y = global_position.y+(get_parent().scale.y*collision.shape.get_extents().y)
-	
-	
-	if body and body._velocity.y<=0 and !been_opened:
 		
+	if body and body._velocity.y<=0 and !been_opened:
 		var instance = spawn_object.instance()
 		self.been_opened = true
 		
 		instance.get_node("AnimationPlayer").play("AppearFromBox")
 		
-		if(body.global_position.x<global_position.x):
-			instance.speed.x = -instance.speed.x
-		else:
-			instance.speed.x = instance.speed.x
+		if(instance.get("speed")):
+			if(body.global_position.x<global_position.x):
+				instance.speed.x = -instance.speed.x
+			else:
+				instance.speed.x = instance.speed.x
 		instance.position.y -= collision.shape.get_extents().y
-		instance.position.x += collision.shape.get_extents().x				
+		instance.position.x += collision.shape.get_extents().x
 		
-		add_child(instance)		
-	else:
-		print("NOPE")
+		add_child(instance)	
+
 func set_been_opened(value:bool):
 	been_opened = value
 	sprite.visible = true
