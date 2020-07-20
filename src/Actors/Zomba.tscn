@@ -22,8 +22,8 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1, 0 ]
+"update": 1,
+"values": [ 0, 1 ]
 }
 
 [node name="Enemy" type="KinematicBody2D"]
@@ -50,6 +50,7 @@ hframes = 2
 frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Walking"
 anims/Walking = SubResource( 3 )
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]

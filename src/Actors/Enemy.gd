@@ -12,10 +12,11 @@ func _ready():
 	_velocity.x = -speed.x
 	anim_player.play("Walking")
 	
-func _on_StompDetector_body_entered(body):	
-	if body.global_position.y > get_node("StompDetector").global_position.y:		
-		get_node("CollisionShape2D").disabled = true
-		die()
+func _on_StompDetector_body_entered(body):
+	if(!PlayerData.invincible):
+		if body.global_position.y > get_node("StompDetector").global_position.y:		
+			get_node("CollisionShape2D").disabled = true
+			die()
 
 func _physics_process(delta):
 	if(true):
@@ -32,7 +33,7 @@ func die()->void:
 
 
 func _on_VisibilityEnabler2D_screen_entered():
-	pass
+	anim_player.play("Walking")
 
 
 func _on_VisibilityEnabler2D_screen_exited():
@@ -42,5 +43,6 @@ func _on_VisibilityEnabler2D_screen_exited():
 
 func _on_StompDetector_area_entered(area):		
 	if area.global_position.y < get_node("StompDetector").global_position.y:		
+		
 		get_node("CollisionShape2D").disabled = true
 		die()

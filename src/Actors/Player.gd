@@ -2,7 +2,9 @@ extends Actor
 
 #scene vars
 onready var animation_player: AnimationPlayer = get_node("AnimationPlayer")
+onready var modifier_animation_player: AnimationPlayer = get_node("Modifier")
 onready var grow_timer: Timer = get_node("GrowTimer")
+onready var damage_timer: Timer = get_node("DamageTimer")
 onready var camera: Camera2D = get_node("Camera2D")
 onready var barrierCollision: Area2D = get_node("BarrierCollision")
 onready var cameraCollision: Area2D = get_node("CameraDetector")
@@ -40,6 +42,10 @@ func _on_EnemyDetector_body_entered(body):
 func _on_PlayerData_player_died():
 	die()
 
+#player death event
+func _on_PlayerData_player_damaged():	
+	damaged()
+
 #Player overlap porkchop powerup
 func _on_PlayerData_player_porkchop():	
 	#power up if required
@@ -54,6 +60,7 @@ func _on_PlayerData_player_porkchop():
 func _ready():	
 	PlayerData.connect("player_died",self,"_on_PlayerData_player_died")
 	PlayerData.connect("player_porkchop",self,"_on_PlayerData_player_porkchop")
+	PlayerData.connect("player_damaged",self,"_on_PlayerData_player_damaged")
 	PlayerData.hp = start_hp
 	animation_player.play("stand_right")
 
@@ -195,6 +202,11 @@ func stand_still():
 
 func die()->void:	
 	queue_free()
+	
+func damaged():	
+	PlayerData.invincible = true
+	modifier_animation_player.play("damaged")
+	damage_timer.start()
 
 func _on_GrowTimer_timeout():	
 	physics_paused = false
@@ -206,6 +218,7 @@ func update_camera_bound():
 		camera.limit_left = cur_left_cam_bound	
 		
 func set_small_physics():
+	
 	bigEnemyDetector.monitoring = false
 	bigEnemyDetector.monitorable = false
 	bigBarrierDetector.disabled = true
@@ -226,5 +239,6 @@ func set_big_physics():
 func set_hp(hp_modifier):
 	PlayerData.hp += hp_modifier
 
-
-
+func _on_DamageTimer_timeout():
+	PlayerData.invincible = false
+	modifier_animation_player.stop()
