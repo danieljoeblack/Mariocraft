@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Hit"
+length = 0.4
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("sprite:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.132756, -3.99511, -5.31918, -0.080161, 4.20588, 0.0820163, 4.28376, 0, -0.128748, -3.91722, 0.0865319, -4.92975 ),
+"times": PoolRealArray( 0, 0.2, 0.4 )
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer"]
+anims/Hit = SubResource( 1 )

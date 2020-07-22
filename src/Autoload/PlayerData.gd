@@ -26,18 +26,17 @@ func porkchop_picked_up():
 	emit_signal("player_porkchop")
 
 func set_hp(value:int)->void:
-	print("Set HP:",value)
 	var hit = value<hp
 	var dead = value <= 0
-		
-	
-	if((hit and !invincible) or !hit):
+
+	if((hit and !invincible) or !hit):		
 		hp = value
 	
 	if(hit and !dead and !invincible):
-		emit_signal("player_damaged")	
+		emit_signal("player_damaged")
 	
 	if(hp<=0):	
+		print(hp)
 		emit_signal("player_died")
 	elif hp == 1:
 		pu_state = POWERUP_STATE.BASE

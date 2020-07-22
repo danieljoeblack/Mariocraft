@@ -1,31 +1,35 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/images/dirt clone-1.png.png" type="Texture" id=1]
 [ext_resource path="res://src/Objects/DestructableDirt.gd" type="Script" id=2]
+[ext_resource path="res://src/Animations/BlockHitAnimation.tscn" type="PackedScene" id=3]
 
-[sub_resource type="PhysicsMaterial" id=1]
+[sub_resource type="PhysicsMaterial" id=4]
 friction = 10000.0
 bounce = 100.0
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 8, 8 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 8, 2 )
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=7]
 _data = [ Vector2( 1, 0.257955 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 8, 3 )
 
 [node name="DestructableDirt" type="StaticBody2D"]
 collision_layer = 2
 collision_mask = 13
-physics_material_override = SubResource( 1 )
+physics_material_override = SubResource( 4 )
 script = ExtResource( 2 )
 
 [node name="BorderCollision" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 5 )
 
-[node name="dirt clone-1png (1)" type="Sprite" parent="."]
+[node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 
 [node name="PlayerCollision" type="Area2D" parent="."]
@@ -33,7 +37,7 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerCollision"]
 position = Vector2( 0, 7 )
-shape = SubResource( 3 )
+shape = SubResource( 6 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 emitting = false
@@ -47,11 +51,22 @@ spread = 46.08
 initial_velocity = 20.0
 scale_amount = 5.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 4 )
+scale_amount_curve = SubResource( 7 )
 color = Color( 0.305882, 0.176471, 0.0117647, 1 )
 hue_variation = -0.1
 hue_variation_random = 1.0
 
 [node name="DestroyTimer" type="Timer" parent="."]
+
+[node name="DestroyDamageArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DestroyDamageArea"]
+position = Vector2( 0, -6 )
+shape = SubResource( 3 )
+
+[node name="AnimationPlayer" parent="." instance=ExtResource( 3 )]
 [connection signal="body_entered" from="PlayerCollision" to="." method="_on_PlayerCollision_body_entered"]
 [connection signal="timeout" from="DestroyTimer" to="." method="_on_DestroyTimer_timeout"]
+[connection signal="body_entered" from="DestroyDamageArea" to="." method="_on_DestroyDamageArea_body_entered"]

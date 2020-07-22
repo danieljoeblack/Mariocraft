@@ -62,6 +62,7 @@ func _ready():
 	PlayerData.connect("player_porkchop",self,"_on_PlayerData_player_porkchop")
 	PlayerData.connect("player_damaged",self,"_on_PlayerData_player_damaged")
 	PlayerData.hp = start_hp
+	PlayerData.invincible = false
 	animation_player.play("stand_right")
 
 #physics loop

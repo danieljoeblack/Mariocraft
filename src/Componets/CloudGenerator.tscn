@@ -1,0 +1,23 @@
+[gd_scene format=2]
+
+[node name="CloudGenerator" type="Node2D"]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 10
+lifetime = 100.0
+preprocess = 100.0
+explosiveness = 0.11
+randomness = 1.0
+lifetime_randomness = 0.18
+emission_shape = 1
+emission_sphere_radius = 128.0
+gravity = Vector2( 1, -0.8 )
+initial_velocity = 36.36
+initial_velocity_random = 1.0
+angle = 1.8
+angle_random = 1.0
+scale_amount = 164.64
+scale_amount_random = 1.0
+__meta__ = {
+"_edit_group_": true
+}

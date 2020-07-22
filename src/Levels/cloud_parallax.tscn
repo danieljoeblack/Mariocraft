@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/Levels/base_tiles.tres" type="TileSet" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.163158, 0.931579 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.105882, 0.713726, 0.952941, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+scroll_offset = Vector2( 100, 0 )
+scroll_base_offset = Vector2( 10, 0 )
+scroll_base_scale = Vector2( 0.8, 1 )
+scroll_limit_begin = Vector2( 10, 0 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_offset = Vector2( 10, 0 )
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxLayer"]
+margin_left = -4.0
+margin_top = 632.0
+margin_right = 962.0
+margin_bottom = 10840.0
+rect_rotation = -90.0
+texture = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TileMap" type="TileMap" parent="ParallaxLayer"]
+modulate = Color( 1, 1, 1, 0.4 )
+position = Vector2( -24.5158, -160.359 )
+tile_set = ExtResource( 1 )
+format = 1
+tile_data = PoolIntArray( -65417, 10, 0, -65391, 10, 0, 65572, 10, 0, 65591, 10, 0, 65607, 10, 0, 65622, 10, 0, 65638, 10, 0, 65684, 5, 0, 131203, 10, 0, 131225, 4, 0, 196634, 10, 0, 196672, 10, 0, 196692, 10, 0, 196704, 10, 0, 262189, 10, 0 )
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 1.5, 1 )
+motion_offset = Vector2( 30, 0 )
+
+[node name="TileMap2" type="TileMap" parent="ParallaxLayer2"]
+modulate = Color( 1, 1, 1, 0.792157 )
+position = Vector2( -32.1055, -156.564 )
+scale = Vector2( 1.2, 1.2 )
+tile_set = ExtResource( 1 )
+format = 1
+tile_data = PoolIntArray( -261961, 10, 0, -130896, 5, 0, -130892, 5, 0, -130890, 10, 0, -65407, 5, 0, -65398, 10, 0, -65364, 7, 0, 169, 10, 0, 176, 7, 0, 178, 5, 0, 65565, 5, 0, 65631, 5, 0, 65659, 5, 0, 65708, 7, 0, 65717, 5, 0, 131111, 5, 0, 131130, 5, 0, 131142, 5, 0, 131154, 5, 0, 131185, 5, 0, 131249, 7, 0, 196627, 5, 0, 1048685, 7, 0 )
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 2, 2 )
+motion_offset = Vector2( 100, 0 )
+
+[node name="TileMap3" type="TileMap" parent="ParallaxLayer3"]
+position = Vector2( -32.1054, -164.153 )
+scale = Vector2( 1.5, 1.5 )
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
+format = 1
+tile_data = PoolIntArray( -130903, 10, 0, -65383, 5, 0, -65374, 5, 0, 64, 9, 0, 142, 5, 0, 174, 10, 0, 65558, 9, 0, 65581, 9, 0, 65637, 9, 0, 65699, 10, 0, 131161, 9, 0, 131209, 5, 0, 131217, 5, 0, 131242, 5, 0, 196620, 9, 0, 196642, 9, 0, 196660, 9, 0, 196684, 9, 0, 262251, 9, 0 )

@@ -3,8 +3,10 @@ extends KinematicBody2D
 export var spawn_object: PackedScene
 export var invisible: bool = false
 
-onready var sprite: Sprite = get_node("chest")
+onready var anim_player: AnimationPlayer = $AnimationPlayer
+onready var sprite: Sprite = get_node("sprite")
 onready var collision: CollisionShape2D = get_node("CollisionShape2D")
+onready var destroyDamageArea: Area2D = get_node("DestroyDamageArea")
 
 
 var been_opened setget set_been_opened
@@ -28,8 +30,12 @@ func _physics_process(delta):
 
 func _on_Area2D_body_entered(body:KinematicBody2D):
 	var actual_y = global_position.y+(get_parent().scale.y*collision.shape.get_extents().y)
+	causeDestroyDamage()
+	anim_player.play("Hit")
+	if body:
+		print(body._velocity.y)
+	if body and body._velocity.y<=26 and !been_opened:
 		
-	if body and body._velocity.y<=0 and !been_opened:
 		var instance = spawn_object.instance()
 		self.been_opened = true
 		
@@ -50,3 +56,10 @@ func set_been_opened(value:bool):
 	sprite.visible = true
 	sprite.frame = 1	
 	
+func causeDestroyDamage():
+	var colliding_bodies = destroyDamageArea.get_overlapping_bodies()
+	
+	for body in colliding_bodies:
+		print(body.get("hp"))
+		if(body.get_collision_layer() == 4 and body.get("hp")):
+			body.hp -= 1
