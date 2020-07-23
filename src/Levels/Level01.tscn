@@ -124,9 +124,6 @@ spawn_object = ExtResource( 6 )
 [node name="Chest6" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1584, 8 )
 
-[node name="Chest7" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1584, 56 )
-
 [node name="Chest8" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1728, 56 )
 
@@ -204,6 +201,10 @@ position = Vector2( 1560, 8 )
 
 [node name="DestructableDirt16" parent="." instance=ExtResource( 8 )]
 position = Vector2( 1576, 8 )
+
+[node name="DestructableDirt29" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1592, 56 )
+object_amount = 7
 
 [node name="DestructableDirt17" parent="." instance=ExtResource( 8 )]
 position = Vector2( 1720, 56 )

@@ -80,7 +80,6 @@ func causeDestroyDamage():
 			
 func causeDestroyBounce():
 	var colliding_bodies = destroyDamageArea.get_overlapping_bodies()
-	
 	for body in colliding_bodies:
 		if(body.get("_velocity") != null):
 			body._velocity.y -= hit_bounce_impulse
