@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-export var instakill = false
+export var instakill = true
 
 onready var damage_detector: Area2D = $DamageDetector
 # Declare member variables here. Examples:
