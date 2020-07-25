@@ -55,12 +55,22 @@ func _on_PlayerData_player_porkchop():
 		physics_paused = true	
 		animation_player.play("grow")
 		grow_timer.start()
+		
+func _on_PlayerData_teleporting_player():
+	print("Playing Teleport")
+	physics_paused = true
+	camera.limit_left = -10000
+	global_position = PlayerData.teleportLocation
+	physics_paused = false
 
 #on ready event
 func _ready():	
+	
 	PlayerData.connect("player_died",self,"_on_PlayerData_player_died")
 	PlayerData.connect("player_porkchop",self,"_on_PlayerData_player_porkchop")
 	PlayerData.connect("player_damaged",self,"_on_PlayerData_player_damaged")
+	PlayerData.connect("teleporting_player",self,"_on_PlayerData_teleporting_player")
+	
 	PlayerData.hp = start_hp
 	PlayerData.invincible = false
 	animation_player.play("stand_right")
@@ -213,11 +223,18 @@ func _on_GrowTimer_timeout():
 	physics_paused = false
 	get_tree().paused = false
 	
-func update_camera_bound():	
-	var cur_left_cam_bound = floor(camera.get_camera_position().x-(camera.get_viewport().size.x*camera.zoom.x)/2)	
-	if(cur_left_cam_bound>camera.limit_left):
-		camera.limit_left = cur_left_cam_bound	
-		
+func update_camera_bound():
+	if(!PlayerData.cameraBoundsOveridden):
+		var cur_left_cam_bound = floor(camera.get_camera_position().x-(camera.get_viewport().size.x*camera.zoom.x)/2)	
+		if(cur_left_cam_bound>camera.limit_left):
+			camera.limit_left = cur_left_cam_bound	
+	else:
+		camera.limit_left = PlayerData.cameraBounds[0]
+		camera.limit_top = PlayerData.cameraBounds[1]
+		camera.limit_right = PlayerData.cameraBounds[2]
+		camera.limit_bottom = PlayerData.cameraBounds[3]
+		if(camera.limit_left == 0):
+			PlayerData.cameraBoundsOveridden = false
 func set_small_physics():
 	
 	bigEnemyDetector.monitoring = false

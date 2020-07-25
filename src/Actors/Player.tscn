@@ -324,7 +324,7 @@ extents = Vector2( 6, 13 )
 extents = Vector2( 6.05269, 7.96021 )
 
 [sub_resource type="RectangleShape2D" id=18]
-extents = Vector2( 6, 8 )
+extents = Vector2( 6, 7 )
 
 [sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 6, 2 )
@@ -418,7 +418,7 @@ rotation = -0.00660269
 shape = SubResource( 17 )
 
 [node name="BarrierCollision" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -8 )
+position = Vector2( 0, -7 )
 shape = SubResource( 18 )
 
 [node name="BounceDetector" type="Area2D" parent="."]

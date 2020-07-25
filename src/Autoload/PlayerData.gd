@@ -3,11 +3,16 @@ extends Node
 signal player_died
 signal player_porkchop
 signal player_damaged
+signal teleporting_player
 
 export var _velocity = Vector2(Vector2.ZERO)
 export var invincible = false
 
 var hp = 1 setget set_hp
+var teleportLocation: Vector2 = Vector2.ZERO setget set_teleport_location
+var cameraBoundsOveridden = false
+var cameraBounds = [0,0,0,0]
+
 enum POWERUP_STATE{
 	BASE,
 	GROWN,
@@ -42,3 +47,8 @@ func set_hp(value:int)->void:
 		pu_state = POWERUP_STATE.BASE
 	elif hp == 2:
 		pu_state = POWERUP_STATE.GROWN	
+
+func set_teleport_location(value):
+	teleportLocation = value
+	print("Emit Signal")
+	emit_signal("teleporting_player")
