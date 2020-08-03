@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/Componets/Main Menu Options.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Levels/Level01.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/images/Mario Titlecard.png" type="Texture" id=3]
+[ext_resource path="res://src/Componets/Main Menu Options.gd" type="Script" id=4]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Node2D" parent="." instance=ExtResource( 2 )]
+position = Vector2( -1, 1 )
+
+[node name="LoadingScreen" parent="Node2D" index="0"]
+visible = true
+
+[node name="Control" parent="Node2D/LoadingScreen/CanvasLayer" index="0"]
+visible = false
+
+[node name="Player" parent="Node2D" index="7"]
+position = Vector2( 118.667, 111.333 )
+physics_paused = true
+
+[node name="Mario Titlecard" type="Sprite" parent="."]
+position = Vector2( 467, 9 )
+scale = Vector2( 1.88, 1.88 )
+texture = ExtResource( 3 )
+
+[node name="Main Menu Options" parent="." instance=ExtResource( 1 )]
+position = Vector2( 303.271, 128.38 )
+scale = Vector2( 0.5, 0.5 )
+
+[editable path="Node2D"]
+
+[editable path="Node2D/LoadingScreen"]

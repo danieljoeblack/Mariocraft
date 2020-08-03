@@ -6,19 +6,24 @@ onready var sprite: Sprite = $sprite
 onready var destroyTimer: Timer = $DestroyTimer
 onready var destroyDamageArea: Area2D = $DestroyDamageArea
 onready var anim_player: AnimationPlayer = $AnimationPlayer
+onready var hitSoundEffect: AudioStreamPlayer2D = $DirtMoveSound
+onready var breakSoundEffect: AudioStreamPlayer2D = $DirtBreakSound
 
 export var hit_bounce_impulse = 350
 export var spawn_object: PackedScene
 export var object_amount = 0
 
+
 func _on_PlayerCollision_body_entered(body):
 	anim_player.play("Hit")
+	hitSoundEffect.play()
 	if(object_amount <= 0):
 		causeDestroyDamage()
 		if(PlayerData.pu_state != PlayerData.POWERUP_STATE.BASE):
 			particleAnimation.emitting = true
 			sprite.visible = false
 			borderCollisions.disabled = true
+			#breakSoundEffect.play()
 			destroyTimer.start()
 	else:
 		#create an instance of our spawn object

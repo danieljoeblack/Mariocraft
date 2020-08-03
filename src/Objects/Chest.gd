@@ -5,9 +5,10 @@ export var invisible: bool = false
 export var hit_bounce_impulse = 350
 
 onready var anim_player: AnimationPlayer = $AnimationPlayer
-onready var sprite: Sprite = get_node("sprite")
+onready var sprite: Sprite = get_node("Chest")
 onready var collision: CollisionShape2D = get_node("CollisionShape2D")
 onready var destroyDamageArea: Area2D = get_node("DestroyDamageArea")
+onready var hitSound: AudioStreamPlayer2D = $HitSound
 
 
 var been_opened setget set_been_opened
@@ -41,6 +42,9 @@ func _on_Area2D_body_entered(body:KinematicBody2D):
 	
 	#play the animation to jiggle the block
 	anim_player.play("Hit")
+	
+	if body._velocity.y<=100:
+		play_random_hit()
 
 	#check if actually hit for the body, more for invisible blocks to ensure the
 	# player didn't fall through
@@ -69,7 +73,7 @@ func _on_Area2D_body_entered(body:KinematicBody2D):
 func set_been_opened(value:bool):
 	been_opened = value
 	sprite.visible = true
-	sprite.frame = 1	
+	sprite.get_node("closed_lid").visible = false
 	
 func causeDestroyDamage():
 	var colliding_bodies = destroyDamageArea.get_overlapping_bodies()
@@ -83,4 +87,9 @@ func causeDestroyBounce():
 	for body in colliding_bodies:
 		if(body.get("_velocity") != null):
 			body._velocity.y -= hit_bounce_impulse
-		
+
+func play_random_hit():
+	var pitchModifer = rand_range(0.75,1.5)
+	print(hitSound.pitch_scale)
+	hitSound.pitch_scale = pitchModifer	
+	hitSound.play()

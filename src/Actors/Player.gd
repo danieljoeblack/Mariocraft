@@ -9,11 +9,13 @@ onready var camera: Camera2D = get_node("Camera2D")
 onready var barrierCollision: Area2D = get_node("BarrierCollision")
 onready var cameraCollision: Area2D = get_node("CameraDetector")
 onready var upray: RayCast2D = get_node("RayCast2D")
-
+onready var teleportEndTimer: Timer = $TeleportEndTimer
+onready var invincibilityTimer: Timer = $InvincibilityTimer
 onready var bigEnemyDetector: Area2D = get_node("BigEnemyDetector")
 onready var smallEnemyDetector: Area2D = get_node("EnemyDetector")
 onready var bigBarrierDetector: Area2D = get_node("BigBarrierCollision")
 onready var smallBarrierDetector: Area2D = get_node("BarrierCollision")
+onready var sprite: Sprite = $sprite
 
 #instance vars
 export var stomp_impulse = 300
@@ -28,14 +30,14 @@ export var can_crawl = false
 
 var has_hp=true
 
-		
+
 func _on_Area2D_area_entered(area):		
-	if(area.collision_layer == 32):
+	if(area.collision_layer == 32 and PlayerData.pu_state != PlayerData.POWERUP_STATE.INVINCIBLE):
 		_velocity = calculate_stomp_velocity(_velocity, stomp_impulse)
 
 #player hit event
 func _on_EnemyDetector_body_entered(body):	
-	if(body.collision_layer == 4):
+	if(body.collision_layer == 4 and !PlayerData.pu_state == PlayerData.POWERUP_STATE.INVINCIBLE):
 		PlayerData.hp -= 1
 
 #player death event
@@ -43,43 +45,68 @@ func _on_PlayerData_player_died():
 	die()
 
 #player death event
-func _on_PlayerData_player_damaged():	
+func _on_PlayerData_player_damaged():
 	damaged()
 
 #Player overlap porkchop powerup
 func _on_PlayerData_player_porkchop():	
+	var baseState = PlayerData.getBaseState()
 	#power up if required
-	if(PlayerData.pu_state == PlayerData.POWERUP_STATE.BASE):
+	if(baseState == PlayerData.POWERUP_STATE.BASE):
 		PlayerData.hp = 2
 		get_tree().paused = true
 		physics_paused = true	
 		animation_player.play("grow")
 		grow_timer.start()
 		
+#Player overlap porkchop powerup
+func _on_PlayerData_player_apple():	
+	PlayerData.pu_state = PlayerData.POWERUP_STATE.INVINCIBLE
+	modifier_animation_player.play("Invincible")
+	invincibilityTimer.start()
+	
+		
 func _on_PlayerData_teleporting_player():
-	print("Playing Teleport")
+	if("right" in PlayerData.teleportAnimation):
+		walk_right()
+	elif("left" in PlayerData.teleportAnimation):
+		walk_left()			
+	get_tree().paused = true
 	physics_paused = true
-	camera.limit_left = -10000
-	global_position = PlayerData.teleportLocation
-	physics_paused = false
+	#camera.limit_left = -10000
+	if(PlayerData.teleportAnimation):
+		modifier_animation_player.play(PlayerData.teleportAnimation)
+
 
 #on ready event
 func _ready():	
-	
+	Engine.set_target_fps(Engine.get_iterations_per_second())
 	PlayerData.connect("player_died",self,"_on_PlayerData_player_died")
 	PlayerData.connect("player_porkchop",self,"_on_PlayerData_player_porkchop")
+	PlayerData.connect("player_apple",self,"_on_PlayerData_player_apple")
 	PlayerData.connect("player_damaged",self,"_on_PlayerData_player_damaged")
 	PlayerData.connect("teleporting_player",self,"_on_PlayerData_teleporting_player")
 	
 	PlayerData.hp = start_hp
 	PlayerData.invincible = false
 	animation_player.play("stand_right")
+	sprite.offset = Vector2.ZERO
+	
 
 #physics loop
-func _physics_process(delta: float) -> void:	
-	if !physics_paused:
+func _physics_process(delta: float) -> void:
+	var baseState = PlayerData.getBaseState()
+	
+	##removed as it was causing issues and isn't required for current teleports
+	## will need to be implmented if teleporting backwards is required.
+	#if(!get_node("VisibilityNotifier2D").is_on_screen() and !PlayerData.cameraBoundsOveridden):
+	#	camera.limit_left = -10000000
+	if !physics_paused and ! "tunnel" in modifier_animation_player.current_animation and !PlayerData.playerPaused:
 		
-		if(PlayerData.pu_state == PlayerData.POWERUP_STATE.BASE):
+		if(is_on_floor() && PlayerData.pointAmount != 0):
+			PlayerData.pointAmount = 0
+		
+		if(baseState == PlayerData.POWERUP_STATE.BASE):
 			set_small_physics()
 		else:
 			set_big_physics()
@@ -91,7 +118,7 @@ func _physics_process(delta: float) -> void:
 			update_camera_bound()
 		
 		#X animations		
-		if((PlayerData.pu_state == PlayerData.POWERUP_STATE.BASE or !Input.get_action_strength("crouch")) and !(PlayerData.pu_state != PlayerData.POWERUP_STATE.BASE and upray.is_colliding())):
+		if((baseState == PlayerData.POWERUP_STATE.BASE or !Input.get_action_strength("crouch")) and !(baseState != PlayerData.POWERUP_STATE.BASE and upray.is_colliding())):
 			if(_velocity.x!=0):
 				if(direction.x >= 0 and _velocity.x >0):
 					walk_right()				
@@ -178,41 +205,53 @@ func calculate_stomp_velocity(linear_velocity: Vector2, impulse: float) -> Vecto
 	return out
 
 func turn_left():
-	if(PlayerData.pu_state <=PlayerData.POWERUP_STATE.BASE):
+	var baseState = PlayerData.getBaseState()
+	if(baseState == PlayerData.POWERUP_STATE.BASE):
 		animation_player.play("Turn Left")
-	elif PlayerData.pu_state <=PlayerData.POWERUP_STATE.GROWN:
+	elif baseState ==PlayerData.POWERUP_STATE.GROWN:
 		animation_player.play("Turn Left Big")
 
 func turn_right():
-	if(PlayerData.pu_state <=PlayerData.POWERUP_STATE.BASE):
+	var baseState = PlayerData.getBaseState()
+	if(baseState == PlayerData.POWERUP_STATE.BASE):
 		animation_player.play("Turn Right")
-	elif(PlayerData.pu_state <=PlayerData.POWERUP_STATE.GROWN):
+	elif(baseState == PlayerData.POWERUP_STATE.GROWN):
 		animation_player.play("Turn Right Big")
 
 func walk_right():
-	if(PlayerData.pu_state <=PlayerData.POWERUP_STATE.BASE):
+	var baseState = PlayerData.getBaseState()
+	if(baseState == PlayerData.POWERUP_STATE.BASE):
 		if animation_player.current_animation != "Walk Right":
 			animation_player.play("Walk Right")
-	elif(PlayerData.pu_state <=PlayerData.POWERUP_STATE.GROWN):
+	elif(baseState ==PlayerData.POWERUP_STATE.GROWN):
 		if animation_player.current_animation != "Walk Right Big":
 			animation_player.play("Walk Right Big")
 	
 func walk_left():
-	if(PlayerData.pu_state <=PlayerData.POWERUP_STATE.BASE):
+	var baseState = PlayerData.getBaseState()
+	if(baseState ==PlayerData.POWERUP_STATE.BASE):
 		if animation_player.current_animation != "Walk Left":
 			animation_player.play("Walk Left")
-	elif(PlayerData.pu_state <=PlayerData.POWERUP_STATE.GROWN):
+	elif(baseState ==PlayerData.POWERUP_STATE.GROWN):
 		if animation_player.current_animation != "Walk Left Big":
 			animation_player.play("Walk Left Big")
 
 func stand_still():
-	if(PlayerData.pu_state <=PlayerData.POWERUP_STATE.BASE):
+	var baseState = PlayerData.getBaseState()
+	if(baseState ==PlayerData.POWERUP_STATE.BASE):
 		animation_player.play("stand_right")
-	elif(PlayerData.pu_state <=PlayerData.POWERUP_STATE.GROWN):
+	elif(baseState ==PlayerData.POWERUP_STATE.GROWN):
 		animation_player.play("stand_right_big")
 
 func die()->void:	
-	queue_free()
+	get_tree().paused = true
+	physics_paused = true	
+	animation_player.play("Death")
+
+func reportDeath():
+	get_tree().paused = false
+	physics_paused = false
+	PlayerData.lives -= 1
 	
 func damaged():	
 	PlayerData.invincible = true
@@ -224,17 +263,12 @@ func _on_GrowTimer_timeout():
 	get_tree().paused = false
 	
 func update_camera_bound():
-	if(!PlayerData.cameraBoundsOveridden):
-		var cur_left_cam_bound = floor(camera.get_camera_position().x-(camera.get_viewport().size.x*camera.zoom.x)/2)	
-		if(cur_left_cam_bound>camera.limit_left):
-			camera.limit_left = cur_left_cam_bound	
-	else:
-		camera.limit_left = PlayerData.cameraBounds[0]
-		camera.limit_top = PlayerData.cameraBounds[1]
-		camera.limit_right = PlayerData.cameraBounds[2]
-		camera.limit_bottom = PlayerData.cameraBounds[3]
-		if(camera.limit_left == 0):
-			PlayerData.cameraBoundsOveridden = false
+	if(!"tunnel" in modifier_animation_player.current_animation):
+		if(!PlayerData.cameraBoundsOveridden and visible):
+			var cur_left_cam_bound = floor(camera.get_camera_position().x-(camera.get_viewport().size.x*camera.zoom.x)/2)	
+			if(cur_left_cam_bound>camera.limit_left):
+				camera.limit_left = cur_left_cam_bound	
+				
 func set_small_physics():
 	
 	bigEnemyDetector.monitoring = false
@@ -260,3 +294,33 @@ func set_hp(hp_modifier):
 func _on_DamageTimer_timeout():
 	PlayerData.invincible = false
 	modifier_animation_player.stop()
+	
+func endTeleport():
+	global_position = PlayerData.teleportLocation
+	camera.limit_left = PlayerData.cameraBounds[0]
+	camera.limit_top = PlayerData.cameraBounds[1]
+	camera.limit_right = PlayerData.cameraBounds[2]
+	camera.limit_bottom = PlayerData.cameraBounds[3]
+	
+	if(PlayerData.secondaryTeleportAnimation):
+		modifier_animation_player.play(PlayerData.secondaryTeleportAnimation)
+		teleportEndTimer.start()
+	else:
+		print("No Secondary")
+		_on_TeleportEndTimer_timeout()
+
+
+func _on_TeleportEndTimer_timeout():
+	get_tree().paused = false
+	physics_paused = false
+	#PlayerData.cameraBoundsOveridden = false
+	PlayerData.teleportAnimation = ""
+	PlayerData.secondaryTeleportAnimation = ""
+
+
+func _on_InvincibilityTimer_timeout():
+	print("playing")
+	modifier_animation_player.play("InvincibleClear")
+
+func invincible_over():
+	PlayerData.pu_state = PlayerData.getBaseState()

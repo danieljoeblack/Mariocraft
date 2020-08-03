@@ -1,9 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/images/chest.png" type="Texture" id=1]
 [ext_resource path="res://src/Objects/Chest.gd" type="Script" id=2]
 [ext_resource path="res://src/Objects/Emerald.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Animations/BlockHitAnimation.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/images/Chest_open_bottom.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/Chest_open_lid.png" type="Texture" id=6]
+[ext_resource path="res://assets/images/Chest_closed_lid.png" type="Texture" id=7]
+[ext_resource path="res://assets/sounds/chest_thud.wav" type="AudioStream" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
@@ -22,6 +26,7 @@ script = ExtResource( 2 )
 spawn_object = ExtResource( 3 )
 
 [node name="sprite" type="Sprite" parent="."]
+visible = false
 position = Vector2( 8, 0 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -54,5 +59,26 @@ collision_mask = 12
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DestroyDamageArea"]
 position = Vector2( 0, -6 )
 shape = SubResource( 3 )
+
+[node name="Chest" type="Sprite" parent="."]
+
+[node name="bottom" type="Sprite" parent="Chest"]
+position = Vector2( 8, 0 )
+z_index = 10
+texture = ExtResource( 5 )
+
+[node name="open_lid" type="Sprite" parent="Chest"]
+position = Vector2( 8, 1 )
+texture = ExtResource( 6 )
+
+[node name="closed_lid" type="Sprite" parent="Chest"]
+position = Vector2( 7.97997, 0.149801 )
+z_index = 10
+texture = ExtResource( 7 )
+
+[node name="OpenSound" type="AudioStreamPlayer2D" parent="."]
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_entered" from="DestroyDamageArea" to="." method="_on_DestroyDamageArea_body_entered"]

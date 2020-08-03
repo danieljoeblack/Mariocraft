@@ -1,0 +1,127 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/fonts/Rowdies-Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/images/player_spritemap_50_27_1.png" type="Texture" id=2]
+[ext_resource path="res://src/Componets/menu_theme.tres" type="Theme" id=3]
+[ext_resource path="res://src/Componets/LoadingScreen.gd" type="Script" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "FadeOut"
+length = 4.0
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("CanvasLayer/Control:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 3, 4 )
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 3.9 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "endLoading"
+} ]
+}
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.974359, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 43
+font_data = ExtResource( 1 )
+
+[node name="LoadingScreen" type="Node2D"]
+modulate = Color( 1, 1, 1, 0 )
+script = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "FadeOut"
+anims/FadeOut = SubResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 800.0
+margin_bottom = 600.0
+theme = ExtResource( 3 )
+texture = SubResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+margin_left = 250.45
+margin_top = 199.6
+margin_right = 390.45
+margin_bottom = 253.6
+theme = ExtResource( 3 )
+custom_fonts/font = SubResource( 4 )
+text = "World"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldLevelLabel" type="Label" parent="CanvasLayer/Control"]
+margin_left = 442.45
+margin_top = 199.6
+margin_right = 518.45
+margin_bottom = 253.6
+theme = ExtResource( 3 )
+custom_fonts/font = SubResource( 4 )
+text = "1 - 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="CanvasLayer/Control"]
+margin_left = 385.75
+margin_top = 317.7
+margin_right = 418.75
+margin_bottom = 371.7
+theme = ExtResource( 3 )
+custom_fonts/font = SubResource( 4 )
+text = "X"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lives" type="Label" parent="CanvasLayer/Control"]
+margin_left = 472.7
+margin_top = 317.7
+margin_right = 501.7
+margin_bottom = 371.7
+theme = ExtResource( 3 )
+custom_fonts/font = SubResource( 4 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/Control"]
+position = Vector2( 307.95, 340.75 )
+scale = Vector2( 5.84, 5.84 )
+texture = ExtResource( 2 )
+hframes = 27

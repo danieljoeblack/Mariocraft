@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/images/dirt clone-1.png.png" type="Texture" id=1]
 [ext_resource path="res://src/Objects/DestructableDirt.gd" type="Script" id=2]
 [ext_resource path="res://src/Animations/BlockHitAnimation.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/Objects/Emerald.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/sounds/dirt_move.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/dirt_break.wav" type="AudioStream" id=6]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 10000.0
@@ -69,6 +71,12 @@ position = Vector2( 0, -6 )
 shape = SubResource( 5 )
 
 [node name="AnimationPlayer" parent="." instance=ExtResource( 3 )]
+
+[node name="DirtMoveSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[node name="DirtBreakSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
 [connection signal="body_entered" from="PlayerCollision" to="." method="_on_PlayerCollision_body_entered"]
 [connection signal="timeout" from="DestroyTimer" to="." method="_on_DestroyTimer_timeout"]
 [connection signal="body_entered" from="DestroyDamageArea" to="." method="_on_DestroyDamageArea_body_entered"]

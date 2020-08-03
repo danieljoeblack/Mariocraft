@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="PlaformerTemplate"
-run/main_scene="res://src/Levels/Level01.tscn"
+run/main_scene="res://src/Levels/Titlescreen.tscn"
 config/icon="res://icon.png"
 
 [autoload]

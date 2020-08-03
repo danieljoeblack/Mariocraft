@@ -1,0 +1,114 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/Componets/menu_theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/Componets/hud_theme.tres" type="Theme" id=2]
+[ext_resource path="res://assets/images/emerald.png" type="Texture" id=3]
+[ext_resource path="res://src/Componets/HUD.gd" type="Script" id=4]
+
+[node name="HUD" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+margin_top = -9.72914
+margin_right = 40.0
+margin_bottom = 30.2709
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharacterNameLabel" type="Label" parent="CanvasLayer/Control"]
+margin_left = 32.0
+margin_top = 16.0
+margin_right = 162.0
+margin_bottom = 70.0
+theme = ExtResource( 2 )
+text = "MARIO"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/Control"]
+margin_left = 32.0
+margin_top = 40.0
+margin_right = 137.0
+margin_bottom = 70.0
+theme = ExtResource( 1 )
+text = "0000000"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/Control"]
+position = Vector2( 204.757, 54.3562 )
+scale = Vector2( 2.42, 2.42 )
+texture = ExtResource( 3 )
+
+[node name="Label3" type="Label" parent="CanvasLayer/Control"]
+margin_left = 224.117
+margin_top = 40.0
+margin_right = 240.117
+margin_bottom = 70.0
+theme = ExtResource( 1 )
+text = "X"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CoinsLabel" type="Label" parent="CanvasLayer/Control"]
+margin_left = 245.996
+margin_top = 40.0
+margin_right = 275.996
+margin_bottom = 70.0
+theme = ExtResource( 1 )
+text = "00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+margin_left = 564.185
+margin_top = 16.0
+margin_right = 693.185
+margin_bottom = 70.0
+theme = ExtResource( 2 )
+text = "WORLD"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldLevelLabel" type="Label" parent="CanvasLayer/Control"]
+margin_left = 594.94
+margin_top = 40.0
+margin_right = 622.94
+margin_bottom = 70.0
+rect_pivot_offset = Vector2( 76.0033, 64.0013 )
+theme = ExtResource( 2 )
+text = "1-1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeLabel" type="Label" parent="CanvasLayer/Control"]
+margin_left = 707.691
+margin_top = 40.0
+margin_right = 772.691
+margin_bottom = 70.0
+rect_pivot_offset = Vector2( 76.0033, 64.0013 )
+theme = ExtResource( 2 )
+text = "300"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control"]
+margin_left = 698.955
+margin_top = 16.0
+margin_right = 798.955
+margin_bottom = 46.0
+text = "TIME"
+__meta__ = {
+"_edit_use_anchors_": false
+}
